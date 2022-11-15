@@ -24,7 +24,8 @@
                 <li class="nav-item"><a class="nav-link active" href="azure.html">Azure接口</a></li>
                 <li class="nav-item"><a class="nav-link" href="creation.html">Creation接口</a></li>
             </ul>
-            <p class="fst-italic">本页面源码修改自 <a href="https://github.com/wxxxcxx/ms-ra-forwarder">ms-ra-forwarder</a>
+            <p class="fst-italic">本页面源码修改自 <a
+                    href="https://github.com/wxxxcxx/ms-ra-forwarder">ms-ra-forwarder</a>
             </p>
         </div>
     </div>
@@ -34,7 +35,7 @@
         <div class="col">
             <div class="alert alert-warning" role="alert">
                 Azure是<a href="https://azure.microsoft.com/zh-cn/services/cognitive-services/text-to-speech/"
-                         target="_blank">Azure 演示页面</a>的接口。
+                          target="_blank">Azure 演示页面</a>的接口。
                 <br>
                 有Bug请提
                 <a href="https://github.com/jing332/tts-server-go/issues/new">issue</a>。
@@ -76,7 +77,8 @@
                 <label class="form-label">风格强度：</label>
                 <input name="styleDegree" class="form-control" type="number" min="0.1" max="2.0" step="0.1"
                        value="1.0">
-                <div class="form-text">指定说话风格的强度。 接受的值：0.01 到 2（含边界值）。 默认值为 1，表示预定义的风格强度。 最小单位为 0.01，表示略倾向于目标风格。 值为
+                <div class="form-text">指定说话风格的强度。 接受的值：0.01 到 2（含边界值）。 默认值为 1，表示预定义的风格强度。
+                    最小单位为 0.01，表示略倾向于目标风格。 值为
                     2
                     表示是默认风格强度的两倍。
                 </div>
@@ -107,13 +109,13 @@
                     <option value="audio-16khz-32kbitrate-mono-mp3">audio-16khz-32kbitrate-mono-mp3</option>
                     <option value="audio-16khz-64kbitrate-mono-mp3">audio-16khz-64kbitrate-mono-mp3</option>
                     <option value="audio-16khz-128kbitrate-mono-mp3">audio-16khz-128kbitrate-mono-mp3</option>
-                    <option value="audio-24khz-48kbitrate-mono-mp3">audio-24khz-48kbitrate-mono-mp3</option>
+                    <option value="audio-24khz-48kbitrate-mono-mp3" selected>audio-24khz-48kbitrate-mono-mp3</option>
                     <option value="audio-24khz-96kbitrate-mono-mp3">audio-24khz-96kbitrate-mono-mp3</option>
                     <option value="audio-24khz-160kbitrate-mono-mp3">audio-24khz-160kbitrate-mono-mp3</option>
                     <option value="audio-48khz-96kbitrate-mono-mp3">audio-48khz-96kbitrate-mono-mp3</option>
                     <option value="audio-48khz-192kbitrate-mono-mp3">audio-48khz-192kbitrate-mono-mp3</option>
                     <option value="webm-16khz-16bit-mono-opus">webm-16khz-16bit-mono-opus</option>
-                    <option value="webm-24khz-16bit-24kbps-mono-opus" selected>webm-24khz-16bit-24kbps-mono-opus
+                    <option value="webm-24khz-16bit-24kbps-mono-opus">webm-24khz-16bit-24kbps-mono-opus
                     </option>
                     <option value="webm-24khz-16bit-mono-opus">webm-24khz-16bit-mono-opus</option>
                     <option value="ogg-16khz-16bit-mono-opus">ogg-16khz-16bit-mono-opus</option>
@@ -152,16 +154,22 @@
                     <button id="previewButton" type="button" class="btn btn-secondary"
                             onclick="preview()">测试
                     </button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary active" onclick="createLegadoUrl()">生成导入链接</button>
-                        <button type="button" class="btn btn-primary" onclick="openSettingsModal()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                 class="bi bi-sliders" viewBox="0 0 16 16">
-                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
-                            </svg>
-                        </button>
-                    </div>
+                    <button id="previewCustomSSMLButton" type="button" class="btn btn-secondary"
+                            onclick="preview(true)">测试自定义 SSML
+                    </button>
+                    <button id="previewDownloadButton" type="button" class="btn btn-secondary"
+                            onclick="download()">先点播放
+                    </button>
+                    <!--                    <div class="btn-group">-->
+                    <!--                        <button type="button" class="btn btn-primary active" onclick="createLegadoUrl()">生成导入链接</button>-->
+                    <!--                        <button type="button" class="btn btn-primary" onclick="openSettingsModal()">-->
+                    <!--                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"-->
+                    <!--                                 class="bi bi-sliders" viewBox="0 0 16 16">-->
+                    <!--                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>-->
+                    <!--                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>-->
+                    <!--                            </svg>-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -351,7 +359,10 @@
         updateName()
     }
 
-    function createSSML(text, voiceName, styleName, styleDegree, roleName) {
+    function createSSML(text, voiceName, styleName, styleDegree, roleName, customSSML) {
+        if (customSSML) {
+            return text
+        }
         return `\
         <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">\
           <voice name="${voiceName}">\
@@ -366,7 +377,37 @@
         </speak > `;
     }
 
-    function preview() {
+    let nowAudio;
+    let ctxType = 'audio/wav';
+    function copy(buffer)
+    {
+        var bytes = new Uint8Array(buffer);
+        var output = new ArrayBuffer(buffer.byteLength);
+        var outputBytes = new Uint8Array(output);
+        for (var i = 0; i < bytes.length; i++)
+            outputBytes[i] = bytes[i];
+        return output;
+    }
+    function download() {
+        if (!nowAudio) {
+            return
+        }
+        let name = Date.now() + ""
+        let a = document.createElement("a")// <a style='display: none;'/>
+        a.style = "display: none"
+        console.log("nowAudio", nowAudio)
+        let url = window.URL.createObjectURL(new Blob([nowAudio], {type: ctxType}));
+        a.href = url
+        a.download = name
+        document.body.append(a);
+        a.click()
+        window.URL.revokeObjectURL(url);
+        a.remove();
+        nowAudio = null
+        document.querySelector("#previewDownloadButton").innerHTML = "先点播放";
+    }
+
+    function preview(customSSML) {
         let headers = {'Content-Type': 'text/plain'};
 
         let voiceName = document.getElementsByName('voiceName')[0].value;
@@ -381,7 +422,7 @@
         if (token) headers['Token'] = token
         headers['Format'] = voiceFormat
 
-        let body = createSSML(previewText, voiceName, styleName, styleDegree, roleName)
+        let body = createSSML(previewText, voiceName, styleName, styleDegree, roleName, customSSML)
         let button = document.getElementById('previewButton');
         let textInfo = document.getElementById('audioInfoLabel')
         button.disabled = true;
@@ -395,6 +436,8 @@
         }).then(response => {
             if (response.status === 200) {
                 let audioSize = response.headers.get("Content-Length")
+                ctxType = response.headers.get("Content-Type")
+                console.log('ctxType',ctxType)
                 let elapsedTme = Date.now() - startTime
                 textInfo.innerText =
                     `大小: ${unitConversion(audioSize)} | 耗时: ${elapsedTme}ms`
@@ -402,12 +445,19 @@
             } else {
                 return response.text().then(text => Promise.reject(text));
             }
-        }).then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
+        }).then(arrayBuffer => {
+            console.log("aaaaa",arrayBuffer,arrayBuffer.byteLength)
+            nowAudio = copy(arrayBuffer)
+            console.log("nowAudio", nowAudio,nowAudio.byteLength)
+            return ctx.decodeAudioData(arrayBuffer)
+        })
             .then(audio => {
                 let player = ctx.createBufferSource();
                 player.buffer = audio;
                 player.connect(ctx.destination);
                 player.start(ctx.currentTime);
+                document.querySelector("#previewDownloadButton").innerHTML = "下载";
+
             })
             .catch(reason => {
                 alert(reason);
