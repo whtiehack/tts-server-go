@@ -4,3 +4,5 @@
 *.mp3
 /tts-server
 oryxBuildBinary
+log.txt
+log_back.txt
