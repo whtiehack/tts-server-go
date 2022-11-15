@@ -7,13 +7,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	tts_server_go "github.com/jing332/tts-server-go"
 	"io"
 	"io/fs"
 	"net/http"
 	"strconv"
 	"sync"
 	"time"
+
+	tts_server_go "github.com/jing332/tts-server-go"
 
 	"github.com/gorilla/websocket"
 	"github.com/jing332/tts-server-go/service/azure"
@@ -144,7 +145,9 @@ func (s *GracefulServer) edgeAPIHandler(w http.ResponseWriter, r *http.Request) 
 	body, _ := io.ReadAll(r.Body)
 	ssml := string(body)
 	format := r.Header.Get("Format")
-
+	if format == "" {
+		format = "audio-24khz-48kbitrate-mono-mp3"
+	}
 	log.Infoln("接收到SSML(Edge):", ssml)
 	if ttsEdge == nil {
 		ttsEdge = &edge.TTS{UseDnsLookup: s.UseDnsEdge}
@@ -310,7 +313,9 @@ func (s *GracefulServer) creationAPIHandler(w http.ResponseWriter, r *http.Reque
 		writeErrorData(w, http.StatusBadRequest, err.Error())
 		return
 	}
-
+	if reqData.Format == "" {
+		reqData.Format = "audio-16khz-32kbitrate-mono-mp3"
+	}
 	if ttsCreation == nil {
 		ttsCreation = creation.New()
 	}

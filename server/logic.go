@@ -3,11 +3,12 @@ package server
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/jing332/tts-server-go/service"
-	log "github.com/sirupsen/logrus"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/jing332/tts-server-go/service"
+	log "github.com/sirupsen/logrus"
 )
 
 type LegadoJson struct {
@@ -68,9 +69,9 @@ func removePcmChar(s string) string {
 }
 
 const (
-	textVar  = "{{String(speakText).replace(/&/g, '&amp;').replace(/\"/g, '&quot;').replace(/'/g, '&apos;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\\/g, '')}}"
-	textVar2 = `{{String(speakText).replace(/&/g, '&amp;').replace(/\"/g, '&quot;').replace(/'/g, '&apos;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\\/g, '')}}`
-	rateVar  = "{{(speakSpeed -10) * 2}}"
+	textVar  = "{{speakText}}"
+	textVar2 = `{{speakText}}`
+	rateVar  = "{{(speakSpeed + 5) / 10 + 4}}"
 )
 
 /* 生成阅读APP朗读朗读引擎Json (Edge, Azure) */
@@ -78,10 +79,10 @@ func genLegodoJson(api, name, voiceName, styleName, styleDegree, roleName, voice
 	t := time.Now().UnixNano() / 1e6 //毫秒时间戳
 	var url string
 	if styleName == "" { /* Edge大声朗读 */
-		url = api + ` ,{"method":"POST","body":"<speak xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" version=\"1.0\" xml:lang=\"en-US\"><voice name=\"` +
+		url = api + `,{"method":"POST","body":"<speak xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" version=\"1.0\" xml:lang=\"en-US\"><voice name=\"` +
 			voiceName + `\"><prosody rate=\"` + rateVar + `%\" pitch=\"+0Hz\">` + textVar2 + `</prosody></voice></speak>"}`
 	} else { /* Azure TTS */
-		url = api + ` ,{"method":"POST","body":"<speak xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" version=\"1.0\" xml:lang=\"en-US\"><voice name=\"` +
+		url = api + `,{"method":"POST","body":"<speak xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\" xmlns:emo=\"http://www.w3.org/2009/10/emotionml\" version=\"1.0\" xml:lang=\"en-US\"><voice name=\"` +
 			voiceName + `\"><lang xml:lang=\"zh-CN\"><mstts:express-as style=\"` + styleName + `\" styledegree=\"` + styleDegree + `\" role=\"` + roleName +
 			`\"><prosody rate=\"` + rateVar + `%\" pitch=\"+0Hz\">` + textVar2 + `</prosody> </mstts:express-as></lang></voice></speak>"}`
 	}
@@ -89,13 +90,13 @@ func genLegodoJson(api, name, voiceName, styleName, styleDegree, roleName, voice
 	head := `{"Content-Type":"text/plain","Format":"` + voiceFormat + `", "Token":"` + token + `"}`
 	legadoJson := &LegadoJson{Name: name, URL: url, ID: t, LastUpdateTime: t, ContentType: formatContentType(voiceFormat),
 		Header: head, ConcurrentRate: concurrentRate}
+	return []byte(legadoJson.URL), nil
+	// body, err := json.Marshal(legadoJson)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	body, err := json.Marshal(legadoJson)
-	if err != nil {
-		return nil, err
-	}
-
-	return body, nil
+	// return body, nil
 }
 
 /* 生成阅读APP朗读引擎Json (Creation) */
@@ -111,14 +112,15 @@ func genLegadoCreationJson(api, name string, creationJson *CreationJson, token, 
 		return nil, err
 	}
 
-	t := time.Now().UnixNano() / 1e6 //毫秒时间戳
+	// t := time.Now().UnixNano() / 1e6 //毫秒时间戳
 	url := api + `,{"method":"POST","body":` + string(jsonBuf.Bytes()) + `}`
-	head := `{"Content-Type":"application/json", "Token":"` + token + `"}`
+	return []byte(url), nil
+	// head := `{"Content-Type":"application/json", "Token":"` + token + `"}`
 
-	legadoJson := &LegadoJson{Name: name, URL: url, ID: t, LastUpdateTime: t, ContentType: formatContentType(creationJson.Format),
-		Header: head, ConcurrentRate: concurrentRate}
-	body, err := json.Marshal(legadoJson)
-	return body, err
+	// legadoJson := &LegadoJson{Name: name, URL: url, ID: t, LastUpdateTime: t, ContentType: formatContentType(creationJson.Format),
+	// 	Header: head, ConcurrentRate: concurrentRate}
+	// body, err := json.Marshal(legadoJson)
+	// return body, err
 }
 
 /* 根据音频格式返回对应的Content-Type */
