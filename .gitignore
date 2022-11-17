@@ -2,7 +2,8 @@
 /.idea/
 /*.exe
 *.mp3
-/tts-server
+tts-server
 oryxBuildBinary
 log.txt
 log_back.txt
+ttl-server

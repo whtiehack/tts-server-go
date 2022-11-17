@@ -218,7 +218,7 @@ func (s *GracefulServer) azureAPIHandler(w http.ResponseWriter, r *http.Request)
 	startTime := time.Now()
 	format := r.Header.Get("Format")
 	if format == "" {
-		format = "audio-16khz-128kbitrate-mono-mp3"
+		format = "riff-16khz-16bit-mono-pcm"
 	}
 	body, _ := io.ReadAll(r.Body)
 	ssml := string(body)
