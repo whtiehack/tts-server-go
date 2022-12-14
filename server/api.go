@@ -17,9 +17,9 @@ import (
 	tts_server_go "github.com/jing332/tts-server-go"
 
 	"github.com/gorilla/websocket"
-	"github.com/jing332/tts-server-go/service/azure"
-	"github.com/jing332/tts-server-go/service/creation"
-	"github.com/jing332/tts-server-go/service/edge"
+	"github.com/jing332/tts-server-go/tts/azure"
+	"github.com/jing332/tts-server-go/tts/creation"
+	"github.com/jing332/tts-server-go/tts/edge"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -122,7 +122,7 @@ func (s *GracefulServer) verifyToken(w http.ResponseWriter, r *http.Request) boo
 		if s.Token != token {
 			log.Warnf("无效的Token: %s, 远程地址: %s", token, r.RemoteAddr)
 			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte("无效的Token"))
+			_, _ = w.Write([]byte("无效的Token"))
 			return false
 		}
 	}
@@ -150,7 +150,7 @@ func (s *GracefulServer) edgeAPIHandler(w http.ResponseWriter, r *http.Request) 
 	}
 	log.Infoln("接收到SSML(Edge):", ssml)
 	if ttsEdge == nil {
-		ttsEdge = &edge.TTS{UseDnsLookup: s.UseDnsEdge}
+		ttsEdge = &edge.TTS{DnsLookupEnabled: s.UseDnsEdge}
 	}
 
 	var succeed = make(chan []byte)
@@ -386,24 +386,24 @@ func (s *GracefulServer) legadoAPIHandler(w http.ResponseWriter, r *http.Request
 	isCreation := params.Get("isCreation")
 	apiUrl := params.Get("api")
 	name := params.Get("name")
-	voiceName := params.Get("voiceName")     /* 发音人 */
-	voiceId := params.Get("voiceId")         /* 发音人ID (Creation接口) */
-	styleName := params.Get("styleName")     /* 风格 */
-	styleDegree := params.Get("styleDegree") /* 风格强度(0.1-2.0) */
-	roleName := params.Get("roleName")       /* 角色(身份) */
-	voiceFormat := params.Get("voiceFormat") /* 音频格式 */
+	voiceName := params.Get("voiceName")             /* 发音人 */
+	voiceId := params.Get("voiceId")                 /* 发音人ID (Creation接口) */
+	secondaryLocale := params.Get("secondaryLocale") /* 二级语言 */
+	styleName := params.Get("styleName")             /* 风格 */
+	styleDegree := params.Get("styleDegree")         /* 风格强度(0.1-2.0) */
+	roleName := params.Get("roleName")               /* 角色(身份) */
+	voiceFormat := params.Get("voiceFormat")         /* 音频格式 */
 	token := params.Get("token")
 	concurrentRate := params.Get("concurrentRate") /* 并发率(请求间隔) 毫秒为单位 */
 
 	var jsonStr []byte
 	var err error
 	if isCreation == "1" {
-		creationJson := &CreationJson{VoiceName: voiceName, VoiceId: voiceId, Style: styleName,
+		creationJson := &CreationJson{VoiceName: voiceName, VoiceId: voiceId, SecondaryLocale: secondaryLocale, Style: styleName,
 			StyleDegree: styleDegree, Role: roleName, Format: voiceFormat}
 		jsonStr, err = genLegadoCreationJson(apiUrl, name, creationJson, token, concurrentRate)
-
 	} else {
-		jsonStr, err = genLegodoJson(apiUrl, name, voiceName, styleName, styleDegree, roleName, voiceFormat, token,
+		jsonStr, err = genLegadoJson(apiUrl, name, voiceName, secondaryLocale, styleName, styleDegree, roleName, voiceFormat, token,
 			concurrentRate)
 	}
 	if err != nil {
@@ -417,7 +417,7 @@ func (s *GracefulServer) legadoAPIHandler(w http.ResponseWriter, r *http.Request
 }
 
 /* 发音人数据 */
-func (s *GracefulServer) creationVoicesAPIHandler(w http.ResponseWriter, r *http.Request) {
+func (s *GracefulServer) creationVoicesAPIHandler(w http.ResponseWriter, _ *http.Request) {
 	token, err := creation.GetToken()
 	if err != nil {
 		writeErrorData(w, http.StatusInternalServerError, "获取Token失败: "+err.Error())
@@ -429,10 +429,10 @@ func (s *GracefulServer) creationVoicesAPIHandler(w http.ResponseWriter, r *http
 		return
 	}
 	w.Header().Set("cache-control", "public, max-age=3600, s-maxage=3600")
-	w.Write(data)
+	_, _ = w.Write(data)
 }
 
-func (s *GracefulServer) azureVoicesAPIHandler(w http.ResponseWriter, r *http.Request) {
+func (s *GracefulServer) azureVoicesAPIHandler(w http.ResponseWriter, _ *http.Request) {
 	data, err := azure.GetVoices()
 	if err != nil {
 		writeErrorData(w, http.StatusInternalServerError, "获取Voices失败: "+err.Error())
@@ -440,5 +440,5 @@ func (s *GracefulServer) azureVoicesAPIHandler(w http.ResponseWriter, r *http.Re
 	}
 
 	w.Header().Set("cache-control", "public, max-age=3600, s-maxage=3600")
-	w.Write(data)
+	_, _ = w.Write(data)
 }
